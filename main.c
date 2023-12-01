@@ -6,39 +6,27 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:05:17 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/01 11:14:54 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:15:23 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-/*
-void	*thread_1(void *arg)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	ft_printf("%d\n", tv.tv_usec);
-	gettimeofday(&tv, NULL);
-	ft_printf("%d\n", tv.tv_usec);
-	gettimeofday(&tv, NULL);
-	ft_printf("%d\n", tv.tv_usec);
-	gettimeofday(&tv, NULL);
-	ft_printf("%d\n", tv.tv_usec);
-	pthread_exit(0);
-}
-*/
 
 int	main(int argc, char *argv[])
 {
 	int		error;
 	t_philo	philo;
+	int		i;
 
-	if (error = ft_creat_struct(argc, argv, &philo) < 0)
+	if ((error = ft_creat_struct(argc, argv, &philo)) < 0)
 		return (ft_error_philo(error), 1);
-	if (error = ft_creat_philos(&philo) < 0)
+	if ((error = ft_creat_philos(&philo)) < 0)
 		return (ft_error_philo(error), ft_exterminate(&philo), 1);
-
-	//pthread_join(thread1, NULL);
+	if ((error = ft_loop_philo(&philo)) < 0)
+		return (ft_error_philo(error), ft_exterminate(&philo), 1);
+	i = 0;
+	while (i < philo.nbr_p)
+		pthread_join(philo.pers[i].thread, NULL);
 	ft_exterminate(&philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:18:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/01 11:29:46 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:45:47 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static void	ft_philo_struct(int nbr, int i, t_philo *philo)
 	if (i == 1)
 		philo->nbr_p = nbr;
 	else if (i == 2)
-		philo->t_death = nbr;
+		philo->t_death = (useconds_t)nbr;
 	else if (i == 3)
-		philo->t_eat = nbr;
+		philo->t_eat = (useconds_t)nbr;
 	else if (i == 4)
-		philo->t_sleep = nbr;
+		philo->t_sleep = (useconds_t)nbr;
 	else if (i == 5)
-		philo->nbr_est = nbr;
+		philo->nbr_eat = nbr;
 }
 
 static int	ft_strcmp_philo(char *str1, char *str2)
