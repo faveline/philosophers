@@ -5,88 +5,99 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 14:18:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/11/29 18:14:49 by faveline         ###   ########.fr       */
+/*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
+/*   Updated: 2023/12/01 12:44:07 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static long	ft_atoi_long(const char *str)
+static int	ft_unlock_fork(t_philo *philo)
 {
-	int		i;
-	long	atoi;
-	int		signe;
-
-	signe = 1;
-	atoi = 0;
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
-		i++;
-	if (str[i] == '+')
-		i++;
-	else if (str[i] == '-')
+	if (pthread_mutex_unlock(philo->fork[philo->pers->inc]) != 0)
+		return (-5);
+	if (philo->inc != philo->nbr_p - 1)
 	{
-		i++;
-		signe = -1;
+		if (pthread_mutex_unlock(philo->fork[philo->inc + 1]) != 0)
+			return (-5);
 	}
-	while (str[i] && str[i] >= 48 && str[i] <= 57)
+	else
 	{
-		atoi = atoi * 10 + str[i] - 48;
-		i++;
+		if (pthread_mutex_unlock(philo->fork[0]) != 0)
+			return (-5);
 	}
-	return (atoi * signe);
+	return (0);
 }
 
-static void	ft_philo_struct(int nbr, int i, t_philo *philo)
+static int	ft_lock_fork(t_philo *philo)
 {
-	if (i == 1)
-		philo->nbr_p = nnbr;
-	else if (i == 2)
-		philo->t_death = nbr;
-	else if (i == 3)
-		philo->t_eat = nbr;
-	else if (i == 4)
-		philo->t_sleep = nbr;
-}
-
-static int	ft_strcmp_philo(char *str1, char *str2)
-{
-	int i;
-
-	i = 0;
-	while (str1[i] && str2[i])
+	if (pthread_mutex_lock(philo->fork[philo->inc]) != 0)
+		return (-5);
+	if (philo->inc != philo->nbr_p - 1)
 	{
-		if (str1[i] != str2[i])
-			return (-1);
-		i++;	
+		if (pthread_mutex_lock(philo->fork[philo->inc + 1]) != 0)
+			return (-5);
 	}
-	return (str1[i] - str2[i]);
-
+	else
+	{
+		if (pthread_mutex_lock(philo->fork[0]) != 0)
+			return (-5);
+	}
+	return (0);
 }
 
-int	ft_creat_struct(int	argc, char *argv[], t_philo *philo)
+static void	*ft_philo(void *ptr)
 {
-	int		i;
-	int		nbr;
-	char	*check;
+	t_philo	*philo;
+	int		error;
 
-	if (argc != 4 && argc != 5)
-		return (-1);
-	i = 0;
-	while (++i < argc)
+	error = 0;
+	philo = (t_philo *)ptr;
+	while (philo->all_ok == 1)
 	{
-		nbr = ft_atoi_philo(argv[i]);
-		if (nbr != ft_atoi_long(argv[i]))
-			return (-2);
-		check = ft_itoa_philo(nbr);
-		if (ft_strcmp_philo(argv[i], check) != 0)
-			return (free(check), -3);
-		free(check);
-		if (nbr < 0)
-			return (-4);
-		ft_philo_struct(nbr, i, philo);
+		ft_lock_fork(philo);
+
+
+
+
+		ft_unlock_fork(philo);
+	}
+}
+
+static t_person	ft_pers_ini(void)
+{
+	t_person	pers;
+
+	pers.alive = 1;
+	pers.eating = 0;
+	pers.sleeping = 0;
+	pers.thinking = 1;
+	pers.i_eat = 0;
+	return (pers);
+}
+
+int	ft_creat_philos(t_philo *philo)
+{
+	int	i;
+
+	philo->pers = (t_person *)malloc(philo->nbr_p * sizeof(t_person));
+	if (philo->pers == NULL)
+		return (-5);
+	philo->fork = (pthread_mutex_t *)malloc(philo->nbr * sizeof(pthread_mutex_t));
+	if (philo->fork == NULL)
+		return (-5);
+	i = 0;
+	philo->all_ok = 1;
+	memset(&philo->fork, 0, philo->nbr_p);
+	while (i < philo->nbr_p)
+	{
+		philo->pers[i]->inc = i;
+		philo->pers[i] = ft_pers_ini();
+		if (pthread_mutex_init(philo->fork[i], NULL) < 0)
+			return (-6);
+		if (pthread_creat(&philo->pers[i]->thread, NULL, ft_philo, &philo) != 0)
+			return (-6);
+		i++;
 	}
 	return (1);
 }
