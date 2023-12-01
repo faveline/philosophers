@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:05:17 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/01 16:15:23 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/01 18:15:03 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(int argc, char *argv[])
 		return (ft_error_philo(error), ft_exterminate(&philo), 1);
 	if ((error = ft_loop_philo(&philo)) < 0)
 		return (ft_error_philo(error), ft_exterminate(&philo), 1);
-	i = 0;
-	while (i < philo.nbr_p)
+	i = -1;
+	while (++i < philo.nbr_p)
 		pthread_join(philo.pers[i].thread, NULL);
 	ft_exterminate(&philo);
 	return (0);
