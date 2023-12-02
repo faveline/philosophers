@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/01 17:45:30 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:07:54 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 typedef struct s_person
 {
 	pthread_t	thread;
-	suseconds_t	eat_end;
+	long		eat_end;
 	int			i_eat;
 }				t_person;
 
@@ -38,17 +38,26 @@ typedef struct s_philo
 	pthread_mutex_t	*fork;
 	int				all_ok;
 	int				inc;
-	suseconds_t		t0;
+	long			t0;
 }					t_philo;
 
-char		*ft_itoa_philo(int nbr);
-int			ft_atoi_philo(const char *str);
-int			ft_creat_struct(int argc, char *argv[], t_philo *philo);
-int			ft_creat_philos(t_philo *philo);
-void		ft_error_philo(int error);
-void		ft_exterminate(t_philo *philo);
-int			ft_loop_philo(t_philo *philo);
-int			ft_print_time(t_philo *philo, int x, int i);
-suseconds_t	ft_get_t0(t_philo *philo, int flag);
+char	*ft_itoa_philo(int nbr);
+int		ft_atoi_philo(const char *str);
+int		ft_creat_struct(int argc, char *argv[], t_philo *philo);
+int		ft_creat_philos(t_philo *philo);
+void	ft_error_philo(int error);
+void	ft_exterminate(t_philo *philo);
+int		ft_loop_philo(t_philo *philo);
+int		ft_print_time(t_philo *philo, int x, int i);
+void	ft_get_t0(t_philo *philo);
+void	ft_result(t_philo *philo);
+int		ft_check_i_eat(t_philo *philo);
+int		ft_check_early(t_philo *philo, int i);
+long	ft_get_time(t_philo *philo);
+void	ft_print_fork(t_philo *philo, int i);
+void	ft_print_eat(t_philo *philo, int i);
+void	ft_print_sleep(t_philo *philo, int i);
+void	ft_print_think(t_philo *philo, int i);
+void	ft_print_die(t_philo *philo, int i);
 
 #endif

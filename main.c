@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:05:17 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/01 18:15:03 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:17:51 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char *argv[])
 	i = -1;
 	while (++i < philo.nbr_p)
 		pthread_join(philo.pers[i].thread, NULL);
+	ft_result(&philo);
 	ft_exterminate(&philo);
-	return (0);
+	return (0);   // mettre tout les printf dans la boucle peut peut etre supprimer le problems des timings faux
 }
