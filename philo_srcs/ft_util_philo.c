@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:55:34 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/02 16:02:58 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/04 16:25:19 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_exterminate(t_philo *philo)
 	while (++i < philo->nbr_p)
 		pthread_mutex_destroy(&philo->fork[i]);
 	free(philo->fork);
-	free(philo->pers);	
+	free(philo->pers);
 }
 
 void	ft_result(t_philo *philo)
@@ -48,13 +48,15 @@ void	ft_result(t_philo *philo)
 	int	i;
 
 	if (ft_check_i_eat(philo) == 1)
-		printf("The philosophers have all eaten at least %d times.\n", philo->nbr_eat);
+		printf("The philosophers have all eaten at least %d times.\n",
+			philo->nbr_eat);
 	else if (philo->all_ok == 0)
 	{
 		i = 0;
 		while (i < philo->nbr_p)
 		{
-			printf("Philosopher %d ate %d times.\n", i + 1, philo->pers[i].i_eat);		
+			printf("Philosopher %d ate %d times.\n",
+				i + 1, philo->pers[i].i_eat);
 			i++;
 		}
 	}

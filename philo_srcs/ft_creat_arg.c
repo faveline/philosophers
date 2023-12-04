@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:18:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/01 18:04:33 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/04 15:41:10 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,19 @@ static void	ft_philo_struct(int nbr, int i, t_philo *philo)
 
 static int	ft_strcmp_philo(char *str1, char *str2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str1[i] && str2[i])
 	{
 		if (str1[i] != str2[i])
 			return (-1);
-		i++;	
+		i++;
 	}
 	return (str1[i] - str2[i]);
-
 }
 
-int	ft_creat_struct(int	argc, char *argv[], t_philo *philo)
+int	ft_creat_struct(int argc, char *argv[], t_philo *philo)
 {
 	int		i;
 	int		nbr;
