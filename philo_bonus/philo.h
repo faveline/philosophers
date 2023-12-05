@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 10:13:03 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 12:40:19 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <string.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 
 typedef struct s_person
 {
-	pthread_t	thread;
+	pthread_t	early;
+	pid_t		child;
 	long		eat_end;
-	int			i_eat;
+	int			ok;
 }				t_person;
 
 typedef struct s_philo
@@ -35,12 +40,13 @@ typedef struct s_philo
 	useconds_t		t_sleep;
 	int				nbr_eat;
 	t_person		*pers;
-	pthread_mutex_t	*fork;
 	int				all_ok;
-	int				inc;
+	int				nbr_ok;
 	long			t0;
-	pthread_t		early;
-	int				early_end;
+	sem_t			*sema_fork;
+	sem_t			*sema_ok;
+	sem_t			*sema_nbr;
+	int				inc;
 }					t_philo;
 
 char	*ft_itoa_philo(int nbr);
@@ -56,6 +62,5 @@ void	ft_result(t_philo *philo);
 int		ft_check_i_eat(t_philo *philo);
 long	ft_get_time(void);
 void	ft_print_die(t_philo *philo, int i);
-int		ft_creat_malloc(t_philo *philo);
 
 #endif

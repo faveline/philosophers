@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/04 17:43:36 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:06:39 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,44 @@ int	ft_print_time(t_philo *philo, char *str, int i)
 	return (1);
 }
 
-int	ft_check_i_eat(t_philo *philo)
+static void	*ft_check_all(void *ptr)
 {
-	int	i;
+	t_philo *philo;
 
+	philo = (t_philo *)ptr;
+	sem_wait(sema_ok);
+	philo->all_ok = 0;
+	return (NULL);
+}
+
+static void	*ft_check_nbr(void *ptr)
+{
+	t_philo *philo;
+	int		i;
+
+	philo = (t_philo *)ptr;
 	i = 0;
-	if (philo->nbr_eat == -1)
-		return (-1);
-	while (i < philo->nbr_p)
+	while (i < philo->nbr_eat * philo->nbr_p && philo->all_ok == 1)
 	{
-		if (philo->pers[i].i_eat < philo->nbr_eat)
-			return (-1);
+		sem_wait(sema_nbr);	
 		i++;
 	}
-	return (1);
+	return (NULL);
 }
 
 int	ft_loop_philo(t_philo *philo)
 {
-	int				i;
-	long			time;
+	int			i;
+	pthread_t	check_all;
+	pthread_t	check_nbr;
 
+	if (pthread_create(&check_all, NULL, ft_check_all, philo) != 0)
+		return (-6);
+	if (pthread_create(&check_nbr, NULL, ft_check_nbr, philo) != 0)
+		return (-6);
 	i = 0;
-	philo->early_end = 0;
-	while (philo->all_ok && ft_check_i_eat(philo) == -1)
-	{
-		i = 0;
-		while (i < philo->nbr_p && philo->all_ok == 1)
-		{
-			time = ft_get_time();
-			if (time - philo->pers[i].eat_end > philo->t_death)
-				ft_print_die(philo, i);
-			i++;
-		}
-	}
-	philo->all_ok = 0;
+	while (philo->all_ok == 1 && philo->nbr_ok == 0)
+		i++;
+	kill(0, SIGKILL);
 	return (1);
 }
