@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 13:45:45 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:39:41 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ static void	*ft_check_nbr(void *ptr)
 
 	philo = (t_philo *)ptr;
 	i = 0;
-	while (i < philo->nbr_eat * philo->nbr_p && philo->all_ok == 1)
+	while (i < (philo->nbr_eat * philo->nbr_p) && philo->all_ok == 1)
 	{
 		sem_wait(philo->sema_nbr);	
 		i++;
 	}
+	philo->nbr_ok = 1;
 	return (NULL);
 }
 
@@ -57,13 +58,23 @@ int	ft_loop_philo(t_philo *philo)
 	pthread_t	check_all;
 	pthread_t	check_nbr;
 
+	i = 0;
+	philo->all_ok = 1;
+	philo->nbr_ok = 0;
 	if (pthread_create(&check_all, NULL, ft_check_all, philo) != 0)
 		return (-6);
-	if (pthread_create(&check_nbr, NULL, ft_check_nbr, philo) != 0)
-		return (-6);
-	i = 0;
+	if (philo->nbr_eat != -1)
+	{
+		if (pthread_create(&check_nbr, NULL, ft_check_nbr, philo) != 0)
+			return (-6);
+	}
 	while (philo->all_ok == 1 && philo->nbr_ok == 0)
-		i++;
-	kill(0, SIGKILL);
+		i = i;
+
+//	while (i < philo->nbr_p)
+//	{
+//		kill(philo->pers[i].child, SIGKILL);
+//		i++;
+//	}
 	return (1);
 }
