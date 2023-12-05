@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:18:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/04 15:41:10 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:05:18 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_creat_struct(int argc, char *argv[], t_philo *philo)
 		if (ft_strcmp_philo(argv[i], check) != 0)
 			return (free(check), -3);
 		free(check);
-		if (nbr < 0)
+		if (nbr <= 0)
 			return (-4);
 		ft_philo_struct(nbr, i, philo);
 	}

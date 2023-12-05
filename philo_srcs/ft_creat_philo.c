@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/04 17:43:10 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:05:52 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ static void	*ft_philo(void *ptr)
 		if (ft_lock_fork(philo, i) < 0)
 			return (philo->all_ok = 0, ft_error_philo(-8), NULL);
 		ft_print_time(philo, "is eating", i);
-		usleep(philo->t_eat);
+		usleep(philo->t_eat * 1000);
 		philo->pers[i].eat_end = ft_get_time();
 		ft_print_time(philo, "is sleeping", i);
 		if (ft_unlock_fork(philo, i) < 0)
 			return (philo->all_ok = 0, ft_error_philo(-8), NULL);
 		philo->pers[i].i_eat++;
-		usleep(philo->t_sleep);
+		usleep(philo->t_sleep * 1000);
 		ft_print_time(philo, "is thinking", i);
 	}
 	return (NULL);

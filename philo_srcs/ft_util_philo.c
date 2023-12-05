@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:55:34 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/04 16:25:19 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:05:31 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_error_philo(int error)
 	if (error == -3)
 		printf("Characters other than digit are refuse\n");
 	if (error == -4)
-		printf("Only positive integers are accepted\n");
+		printf("Only strictly positive integers are accepted\n");
 	if (error == -5)
 		printf("A malloc failed\n");
 	if (error == -6)

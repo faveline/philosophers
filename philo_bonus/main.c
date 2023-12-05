@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:05:17 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 15:22:56 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 16:42:02 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int argc, char *argv[])
 	error = ft_loop_philo(&philo);
 	if (error < 0)
 		return (ft_error_philo(error), ft_exterminate(&philo), 1);
-	ft_result(&philo);
 	ft_exterminate(&philo);
 	return (0);
 }	

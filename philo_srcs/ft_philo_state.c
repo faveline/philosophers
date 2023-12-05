@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/04 17:43:36 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 17:05:02 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_print_time(t_philo *philo, char *str, int i)
 		return (1);
 	gettimeofday(&tv, NULL);
 	i++;
-	time = (useconds_t)tv.tv_usec + tv.tv_sec * 1000000 - philo->t0;
+	time = (useconds_t)tv.tv_usec / 1000 + tv.tv_sec * 1000 - philo->t0;
 	printf("%ld %d %s\n", time, i, str);
 	return (1);
 }
