@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 14:32:01 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:32:14 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	ft_child(t_philo *philo, int i)
 	int	j;
 
 	j = -1;
+	philo->pers[i].ok = 1;
 	if (pthread_create(&philo->pers[i].early, NULL, ft_check_early, philo) != 0)
 		return (-6);
 	philo->pers[i].eat_end = ft_get_time();
@@ -57,11 +58,16 @@ static int	ft_child(t_philo *philo, int i)
 
 int	ft_creat_philos(t_philo *philo)
 {
-	int	i;
+	int			i;
+	pthread_t	check_all;
 
+	philo->all_ok = 1;
 	philo->pers = (t_person *)malloc(philo->nbr_p * sizeof(t_person));
 	if (philo->pers == NULL)
 		return (-5);
+	i = -1;
+	while (++i < philo->nbr_p)
+		philo->pers[i].ok = -1;
 	i = -1;
 	sem_unlink("semafork");
 	sem_unlink("semaok");
@@ -73,11 +79,12 @@ int	ft_creat_philos(t_philo *philo)
 		philo->sema_nbr = sem_open("semanbr", O_CREAT, 00777, 0);
 	}
 	ft_get_t0(philo);
+	if (pthread_create(&check_all, NULL, ft_check_all, philo) != 0)
+		return (-6);
 	while (++i < philo->nbr_p)
 	{
 		philo->inc = i;
 		philo->pers[i].eat_end = 9223372036854775807;
-		philo->pers[i].ok = 1;
 		philo->pers[i].child = fork();
 		if (philo->pers[i].child < 0)
 			return (-9);

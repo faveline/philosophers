@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 13:45:22 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:25:15 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void	ft_result(t_philo *philo);
 int		ft_check_i_eat(t_philo *philo);
 long	ft_get_time(void);
 void	ft_print_die(t_philo *philo, int i);
+void	*ft_check_all(void *ptr);
 
 #endif
