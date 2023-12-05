@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 17:01:40 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 12:37:27 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:46:03 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ long	ft_get_time(void)
 	return (time);
 }
 
-void	ft_print_die(t_person *pers, int i)
+void	ft_print_die(t_philo *philo, int i)
 {
 	struct timeval	tv;
 	long			time;

@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 12:40:19 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:45:22 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <signal.h>
 
 typedef struct s_person
 {

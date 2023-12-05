@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 13:06:00 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:46:32 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	ft_creat_philos(t_philo *philo)
 	if (philo->pers == NULL)
 		return (-5);
 	i = -1;
-	philo->sema_fork = sem_open("semafork", O_CREAT, 00777, nbr_p / 2);
-	philo->sema_ok = sem("semaok", O_CREAT, 00777, 0);
-	if (nbr_eat > 0)
-		philo->sema_nbr = sem("semanbr", O_CREAT, 00777, 0);
+	philo->sema_fork = sem_open("semafork", O_CREAT, 00777, philo->nbr_p / 2);
+	philo->sema_ok = sem_open("semaok", O_CREAT, 00777, 0);
+	if (philo->nbr_eat > 0)
+		philo->sema_nbr = sem_open("semanbr", O_CREAT, 00777, 0);
 	ft_get_t0(philo);
 	while (++i < philo->nbr_p)
 	{

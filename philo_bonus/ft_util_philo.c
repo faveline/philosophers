@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:55:34 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 13:04:21 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:44:54 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ void	ft_error_philo(int error)
 void	ft_exterminate(t_philo *philo)
 {
 	if (philo->all_ok == 1)
-		sem_post(sema_ok);
+		sem_post(philo->sema_ok);
 	if (philo->nbr_ok == 0)
-		sem_post(sema_nbr);
-	sem_close(sema_fork);
+		sem_post(philo->sema_nbr);
+	sem_close(philo->sema_fork);
 	sem_unlink("semafork");
-	sem_close(sema_ok);
+	sem_close(philo->sema_ok);
 	sem_unlink("semaok");
-	if (nbr_eat > 0)
+	if (philo->nbr_eat > 0)
 	{	
-		sem_close(sema_nbr);
+		sem_close(philo->sema_nbr);
 		sem_unlink("semanbr");	
 	}
 	free(philo->pers);

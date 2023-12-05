@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 13:06:39 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:45:45 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	*ft_check_all(void *ptr)
 	t_philo *philo;
 
 	philo = (t_philo *)ptr;
-	sem_wait(sema_ok);
+	sem_wait(philo->sema_ok);
 	philo->all_ok = 0;
 	return (NULL);
 }
@@ -45,7 +45,7 @@ static void	*ft_check_nbr(void *ptr)
 	i = 0;
 	while (i < philo->nbr_eat * philo->nbr_p && philo->all_ok == 1)
 	{
-		sem_wait(sema_nbr);	
+		sem_wait(philo->sema_nbr);	
 		i++;
 	}
 	return (NULL);
