@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 17:05:52 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:08:32 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,28 +74,6 @@ static void	*ft_philo(void *ptr)
 	return (NULL);
 }
 
-static void	*ft_check_early(void *ptr)
-{
-	t_philo	*philo;
-	int		i;
-	long	time;
-
-	philo = (t_philo *)ptr;
-	philo->early_end = 1;
-	while (philo->all_ok == 1 && philo->early_end == 1)
-	{
-		i = 0;
-		while (i < philo->nbr_p && philo->pers[i].i_eat != -1)
-		{
-			time = ft_get_time();
-			if (time - philo->pers[i].eat_end > philo->t_death)
-				ft_print_die(philo, i);
-			i++;
-		}	
-	}
-	return (NULL);
-}
-
 int	ft_creat_philos(t_philo *philo)
 {
 	int	i;
@@ -103,19 +81,24 @@ int	ft_creat_philos(t_philo *philo)
 	if (ft_creat_malloc(philo) < 0)
 		return (-5);
 	i = -1;
-	if (pthread_create(&philo->early, NULL, ft_check_early, philo) != 0)
-		return (-6);
 	ft_get_t0(philo);
+	while (++i < philo->nbr_p)
+	{	
+		if (pthread_mutex_init(&philo->fork[i], NULL) < 0)
+			return (-6);
+	}
+	if (pthread_mutex_init(&philo->wait, NULL) < 0)
+		return (-6);
+	i = -1;
 	while (++i < philo->nbr_p)
 	{
 		philo->inc = i;
 		philo->pers[i].i_eat = 0;
-		if (pthread_mutex_init(&philo->fork[i], NULL) < 0)
-			return (-6);
 		if (pthread_create(&philo->pers[i].thread, NULL, ft_philo, philo) != 0)
 			return (-6);
+//		usleep(10);
 		while (philo->inc != -1)
-			i = i * 1;
+			i = i;
 	}
 	return (1);
 }

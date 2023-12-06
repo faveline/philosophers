@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 10:13:03 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:28:07 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ typedef struct s_philo
 	int				all_ok;
 	int				inc;
 	long			t0;
-	pthread_t		early;
-	int				early_end;
+	pthread_mutex_t	wait;
 }					t_philo;
 
 char	*ft_itoa_philo(int nbr);

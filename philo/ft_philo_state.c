@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 17:05:02 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:06:23 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ int	ft_print_time(t_philo *philo, char *str, int i)
 	struct timeval	tv;
 	long			time;
 
+	pthread_mutex_lock(&philo->wait);
 	if (philo->all_ok == 0)
+	{
+		pthread_mutex_unlock(&philo->wait);
 		return (1);
+	}
+	pthread_mutex_unlock(&philo->wait);
 	gettimeofday(&tv, NULL);
 	i++;
 	time = (useconds_t)tv.tv_usec / 1000 + tv.tv_sec * 1000 - philo->t0;
@@ -48,7 +53,6 @@ int	ft_loop_philo(t_philo *philo)
 	long			time;
 
 	i = 0;
-	philo->early_end = 0;
 	while (philo->all_ok && ft_check_i_eat(philo) == -1)
 	{
 		i = 0;

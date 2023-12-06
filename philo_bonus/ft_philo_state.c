@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 16:30:18 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:16:39 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	ft_loop_philo(t_philo *philo)
 	pthread_join(check_all, NULL);
 	if (philo->nbr_ok == 0 && philo->nbr_eat != -1)
 		sem_post(philo->sema_nbr);
-	pthread_join(check_nbr, NULL);
+	if (philo->nbr_eat != -1)
+		pthread_join(check_nbr, NULL);
 	return (1);
 }

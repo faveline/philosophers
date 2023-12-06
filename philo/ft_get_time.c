@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 17:01:40 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 17:04:50 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:58:33 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	ft_print_die(t_philo *philo, int i)
 
 int	ft_creat_malloc(t_philo *philo)
 {
-	int	i;
-
 	philo->pers = (t_person *)malloc(philo->nbr_p * sizeof(t_person));
 	if (philo->pers == NULL)
 		return (-5);
@@ -52,13 +50,6 @@ int	ft_creat_malloc(t_philo *philo)
 			* sizeof(pthread_mutex_t));
 	if (philo->fork == NULL)
 		return (-5);
-	i = 0;
-	while (i < philo->nbr_p)
-	{
-		philo->pers[i].eat_end = 9223372036854775807;
-		philo->pers[i].i_eat = -1;
-		i++;
-	}
 	philo->all_ok = 1;
 	return (1);
 }
