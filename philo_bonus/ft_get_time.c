@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 17:01:40 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/06 14:12:02 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:34:33 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	ft_print_die(t_philo *philo, int i)
 
 	gettimeofday(&tv, NULL);
 	time = (useconds_t)tv.tv_usec / 1000 + tv.tv_sec * 1000 - philo->t0;
+	sem_wait(philo->dead);
 	philo->pers[i].ok = 0;
+	sem_post(philo->dead);
+	sem_wait(philo->print);
 	printf("%ld %d died\n", time, i + 1);
 	sem_post(philo->sema_ok);
 }

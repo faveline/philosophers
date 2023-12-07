@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 16:42:10 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:30:51 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ typedef struct s_philo
 	useconds_t		t_sleep;
 	int				nbr_eat;
 	t_person		*pers;
-	int				all_ok;
-	int				nbr_ok;
 	long			t0;
 	sem_t			*sema_fork;
 	sem_t			*sema_ok;
-	sem_t			*sema_nbr;
+	sem_t			*sema_nbr;	
+	sem_t			*dead;
+	sem_t			*def_eat;
+	sem_t			*check;
+	sem_t			*print;
 	int				inc;
 }					t_philo;
 

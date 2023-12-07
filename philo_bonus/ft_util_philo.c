@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:55:34 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 16:47:57 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:30:20 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ void	ft_exterminate(t_philo *philo)
 	sem_unlink("semafork");
 	sem_close(philo->sema_ok);
 	sem_unlink("semaok");
+	sem_close(philo->def_eat);
+	sem_unlink("semadef");
+	sem_close(philo->dead);
+	sem_unlink("semadead");
+	sem_close(philo->check);
+	sem_unlink("semacheck");
+	sem_close(philo->print);
+	sem_unlink("semaprint");
 	if (philo->nbr_eat > 0)
 	{	
 		sem_close(philo->sema_nbr);

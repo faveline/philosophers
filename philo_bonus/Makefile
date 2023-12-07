@@ -11,7 +11,7 @@ SRCS_BONUS = ft_creat_arg.c		\
 OBJ_BONUS = $(SRCS_BONUS:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=thread
 RM = rm -f
 AR = ar rcs
 
