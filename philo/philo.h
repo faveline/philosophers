@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/06 14:28:07 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/07 12:28:54 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,14 @@ typedef struct s_philo
 	int				nbr_eat;
 	t_person		*pers;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	*def_eat;
 	int				all_ok;
 	int				inc;
 	long			t0;
 	pthread_mutex_t	wait;
+	pthread_mutex_t	wait_i;
+	long			*eat_t;
+	int				*eat_i;
 }					t_philo;
 
 char	*ft_itoa_philo(int nbr);
@@ -51,10 +55,12 @@ void	ft_exterminate(t_philo *philo);
 int		ft_loop_philo(t_philo *philo);
 int		ft_print_time(t_philo *philo, char *x, int i);
 void	ft_get_t0(t_philo *philo);
-void	ft_result(t_philo *philo);
-int		ft_check_i_eat(t_philo *philo);
 long	ft_get_time(void);
-void	ft_print_die(t_philo *philo, int i);
+int		ft_print_die(t_philo *philo, int i);
 int		ft_creat_malloc(t_philo *philo);
+int		ft_ini_mutex(t_philo *philo);
+int		ft_mutex_loop1(t_philo *philo, int i);
+void	ft_mutex_loop2(t_philo *philo);
+int		ft_mutex_philo1(t_philo *philo);
 
 #endif

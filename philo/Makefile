@@ -6,12 +6,13 @@ SRCS = ft_creat_arg.c		\
 	   ft_libft.c			\
 	   ft_get_time.c		\
 	   ft_philo_state.c		\
+	   ft_mutex_1.c			\
 	   main.c
 
 OBJ = $(SRCS:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=thread
 RM = rm -f
 AR = ar rcs
 
