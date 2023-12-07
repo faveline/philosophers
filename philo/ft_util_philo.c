@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 09:55:34 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 11:50:38 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/07 14:11:18 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,15 @@ void	ft_exterminate(t_philo *philo)
 
 	i = -1;
 	while (++i < philo->nbr_p)
+	{
 		pthread_mutex_destroy(&philo->fork[i]);
+		pthread_mutex_destroy(&philo->def_eat[i]);
+	}
+	pthread_mutex_destroy(&philo->wait);
+	pthread_mutex_destroy(&philo->wait_i);
 	free(philo->eat_t);
 	free(philo->eat_i);
 	free(philo->fork);
 	free(philo->pers);
+	free(philo->def_eat);
 }

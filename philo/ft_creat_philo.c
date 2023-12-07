@@ -6,13 +6,13 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 12:32:22 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/07 14:13:12 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	ft_unlock_fork(t_philo *philo, int i)
+int	ft_unlock_fork(t_philo *philo, int i)
 {
 	if (pthread_mutex_unlock(&philo->fork[i]) != 0)
 		return (-5);
@@ -33,7 +33,8 @@ static int	ft_lock_fork(t_philo *philo, int i)
 {
 	if (pthread_mutex_lock(&philo->fork[i]) != 0)
 		return (-5);
-	ft_print_time(philo, "has taken a fork", i);
+	if (ft_print_time(philo, "has taken a fork", i) < 0)
+		return (-5);
 	if (i != philo->nbr_p - 1)
 	{
 		if (pthread_mutex_lock(&philo->fork[i + 1]) != 0)
@@ -44,7 +45,8 @@ static int	ft_lock_fork(t_philo *philo, int i)
 		if (pthread_mutex_lock(&philo->fork[0]) != 0)
 			return (-5);
 	}
-	ft_print_time(philo, "has taken a fork", i);
+	if (ft_print_time(philo, "has taken a fork", i) < 0)
+		return (-5);
 	return (0);
 }
 
@@ -52,6 +54,7 @@ static void	*ft_philo(void *ptr)
 {
 	t_philo	*philo;
 	int		i;
+	int		error;
 
 	philo = (t_philo *)ptr;
 	i = ft_mutex_philo1(philo);
@@ -61,26 +64,17 @@ static void	*ft_philo(void *ptr)
 	{
 		if (ft_lock_fork(philo, i) < 0)
 			return (philo->all_ok = 0, ft_error_philo(-8), NULL);
-		pthread_mutex_lock(&philo->wait);
-		if (philo->all_ok == 0)
-		{
-			if (ft_unlock_fork(philo, i) < 0)
-				return (ft_error_philo(-8), NULL);
-			pthread_mutex_unlock(&philo->wait);
+		error = ft_mutex_philo2(philo, i);
+		if (error < 0)
+			return (philo->all_ok = 0, ft_error_philo(-8), NULL);
+		else if (error == 2)
 			return (NULL);
-		}
-		pthread_mutex_unlock(&philo->wait);
-		ft_print_time(philo, "is eating", i);
 		usleep(philo->t_eat * 1000);
-		pthread_mutex_lock(&philo->def_eat[i]);
-		philo->pers[i].eat_end = ft_get_time();
-		philo->pers[i].i_eat++;
-		pthread_mutex_unlock(&philo->def_eat[i]);
-		ft_print_time(philo, "is sleeping", i);
-		if (ft_unlock_fork(philo, i) < 0)
+		if (ft_mutex_philo3(philo, i) < 0)
 			return (philo->all_ok = 0, ft_error_philo(-8), NULL);
 		usleep(philo->t_sleep * 1000);
-		ft_print_time(philo, "is thinking", i);
+		if (ft_print_time(philo, "is thinking", i) < 0)
+			return (philo->all_ok = 0, ft_error_philo(-8), NULL);
 	}
 	return (NULL);
 }
@@ -103,7 +97,7 @@ int	ft_creat_philos(t_philo *philo)
 		philo->pers[i].i_eat = 0;
 		if (pthread_create(&philo->pers[i].thread, NULL, ft_philo, philo) != 0)
 			return (-6);
-		usleep(100);
+		usleep(70);
 	}
 	return (1);
 }
