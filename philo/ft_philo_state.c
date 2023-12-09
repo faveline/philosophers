@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:05:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 12:29:30 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:47:42 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ int	ft_print_time(t_philo *philo, char *str, int i)
 	printf("%ld %d %s\n", time, i, str);
 	if (pthread_mutex_unlock(&philo->wait) != 0)
 		return (-1);
+	return (1);
+}
+
+int	ft_mutex_loop_philo(t_philo *philo)
+{
+	int	check;
+
+	check = 0;
+	while (check != -1)
+	{
+		if (pthread_mutex_lock(&philo->wait_i) != 0)
+			return (-6);
+		check = philo->inc;
+		if (pthread_mutex_unlock(&philo->wait_i) != 0)
+			return (-6);
+	}
 	return (1);
 }
 

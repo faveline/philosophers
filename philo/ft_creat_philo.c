@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 14:13:12 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:50:00 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_unlock_fork(t_philo *philo, int i)
 		if (pthread_mutex_unlock(&philo->fork[i + 1]) != 0)
 			return (-5);
 	}
-	else
+	else if (philo->nbr_p != 1)
 	{
 		if (pthread_mutex_unlock(&philo->fork[0]) != 0)
 			return (-5);
@@ -31,6 +31,18 @@ int	ft_unlock_fork(t_philo *philo, int i)
 
 static int	ft_lock_fork(t_philo *philo, int i)
 {
+	if (i == philo->nbr_p - 1)
+	{
+		if (pthread_mutex_lock(&philo->fork[0]) != 0)
+			return (-5);
+		if (ft_print_time(philo, "has taken a fork", i) < 0)
+			return (-5);
+		if (philo->nbr_p == 1)
+		{
+			usleep(1100 * philo->t_death);
+			return (0);
+		}
+	}
 	if (pthread_mutex_lock(&philo->fork[i]) != 0)
 		return (-5);
 	if (ft_print_time(philo, "has taken a fork", i) < 0)
@@ -39,14 +51,9 @@ static int	ft_lock_fork(t_philo *philo, int i)
 	{
 		if (pthread_mutex_lock(&philo->fork[i + 1]) != 0)
 			return (-5);
-	}
-	else
-	{
-		if (pthread_mutex_lock(&philo->fork[0]) != 0)
+		if (ft_print_time(philo, "has taken a fork", i) < 0)
 			return (-5);
 	}
-	if (ft_print_time(philo, "has taken a fork", i) < 0)
-		return (-5);
 	return (0);
 }
 
@@ -91,13 +98,16 @@ int	ft_creat_philos(t_philo *philo)
 	ft_get_t0(philo);
 	while (++i < philo->nbr_p)
 	{
-		pthread_mutex_lock(&philo->wait_i);
+		if (pthread_mutex_lock(&philo->wait_i) != 0)
+			return (philo->all_ok = 0, -8);
 		philo->inc = i;
-		pthread_mutex_unlock(&philo->wait_i);
+		if (pthread_mutex_unlock(&philo->wait_i) != 0)
+			return (philo->all_ok = 0, -8);
 		philo->pers[i].i_eat = 0;
 		if (pthread_create(&philo->pers[i].thread, NULL, ft_philo, philo) != 0)
-			return (-6);
-		usleep(70);
+			return (philo->all_ok = 0, -6);
+		if (ft_mutex_loop_philo(philo) < 0)
+			return (philo->all_ok = 0, -8);
 	}
 	return (1);
 }

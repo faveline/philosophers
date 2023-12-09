@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:05:17 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 14:01:48 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:31:17 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	main(int argc, char *argv[])
 	if (error < 0)
 		return (ft_error_philo(error), ft_exterminate(&philo), 1);
 	i = -1;
-	if (philo.nbr_p == 1)
-		pthread_mutex_unlock(&philo.fork[0]);
 	while (++i < philo.nbr_p)
 		pthread_join(philo.pers[i].thread, NULL);
 	ft_exterminate(&philo);

@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:07:31 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 13:24:27 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:51:04 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ int		ft_mutex_philo1(t_philo *philo);
 int		ft_mutex_philo2(t_philo *philo, int i);
 int		ft_mutex_philo3(t_philo *philo, int i);
 int		ft_unlock_fork(t_philo *philo, int i);
+int		ft_mutex_loop_philo(t_philo *philo);
 
 #endif

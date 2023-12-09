@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 11:54:50 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/07 13:28:49 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/09 15:40:10 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	ft_mutex_philo1(t_philo *philo)
 	if (pthread_mutex_lock(&philo->wait_i) != 0)
 		return (-1);
 	i = philo->inc;
+	philo->inc = -1;
 	if (pthread_mutex_unlock(&philo->wait_i) != 0)
 		return (-1);
 	if (pthread_mutex_lock(&philo->def_eat[i]) != 0)
