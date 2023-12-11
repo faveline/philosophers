@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 10:05:17 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/09 15:31:17 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:15:21 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int argc, char *argv[])
 	int		i;
 
 	error = ft_creat_struct(argc, argv, &philo);
+	ft_ini_var(&philo);
 	if (error < 0)
 		return (ft_error_philo(error), 1);
 	error = ft_creat_philos(&philo);

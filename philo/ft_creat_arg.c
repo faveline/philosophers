@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:18:43 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/05 17:05:18 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:05:32 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ int	ft_creat_struct(int argc, char *argv[], t_philo *philo)
 	}
 	if (argc == 5)
 		philo->nbr_eat = -1;
+	if (philo->nbr_p > 1000)
+		return (-10);
 	return (1);
 }
