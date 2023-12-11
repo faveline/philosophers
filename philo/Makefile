@@ -12,7 +12,7 @@ SRCS = ft_creat_arg.c		\
 OBJ = $(SRCS:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
 
 all : $(NAME)
