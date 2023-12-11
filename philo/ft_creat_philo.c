@@ -6,7 +6,7 @@
 /*   By: faveline <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 10:03:05 by faveline          #+#    #+#             */
-/*   Updated: 2023/12/09 15:50:00 by faveline         ###   ########.fr       */
+/*   Updated: 2023/12/11 17:54:09 by faveline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,42 @@ int	ft_unlock_fork(t_philo *philo, int i)
 	return (0);
 }
 
-static int	ft_lock_fork(t_philo *philo, int i)
+static int	ft_2nd_fork(t_philo *philo, int i)
 {
-	if (i == philo->nbr_p - 1)
-	{
-		if (pthread_mutex_lock(&philo->fork[0]) != 0)
-			return (-5);
-		if (ft_print_time(philo, "has taken a fork", i) < 0)
-			return (-5);
-		if (philo->nbr_p == 1)
-		{
-			usleep(1100 * philo->t_death);
-			return (0);
-		}
-	}
-	if (pthread_mutex_lock(&philo->fork[i]) != 0)
-		return (-5);
-	if (ft_print_time(philo, "has taken a fork", i) < 0)
-		return (-5);
-	if (i != philo->nbr_p - 1)
+	if (i != philo->nbr_p - 1 && i != 0)
 	{
 		if (pthread_mutex_lock(&philo->fork[i + 1]) != 0)
 			return (-5);
 		if (ft_print_time(philo, "has taken a fork", i) < 0)
 			return (-5);
 	}
+	else if (i == philo->nbr_p - 1)
+	{
+		if (pthread_mutex_lock(&philo->fork[0]) != 0)
+			return (-5);
+		if (ft_print_time(philo, "has taken a fork", i) < 0)
+			return (-5);
+	}
+	return (1);
+}
+
+static int	ft_lock_fork(t_philo *philo, int i)
+{
+	if (i == 0)
+	{
+		if (pthread_mutex_lock(&philo->fork[1]) != 0)
+			return (-5);
+		if (ft_print_time(philo, "has taken a fork", i) < 0)
+			return (-5);
+		if (philo->nbr_p == 1)
+			return (usleep(1100 * philo->t_death));
+	}
+	if (pthread_mutex_lock(&philo->fork[i]) != 0)
+		return (-5);
+	if (ft_print_time(philo, "has taken a fork", i) < 0)
+		return (-5);
+	if (ft_2nd_fork(philo, i) < 0)
+		return (-5);
 	return (0);
 }
 
